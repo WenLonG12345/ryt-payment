@@ -2,25 +2,31 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import * as SecureStore from "expo-secure-store";
 import { IUser } from "@/types/user";
+import { useTransactionStore } from "./transaction";
 
 type AuthState = {
   user: IUser | null;
   setUser: (user: IUser | null) => void;
+  setUserBalance: (balance: number) => void;
   logout: () => void;
-};
-
-export const MOCK_USER: IUser = {
-  username: "user001",
-  password: "12345678",
-  balance: 1000,
-  lastLoginAt: new Date().toISOString(),
 };
 
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
-      setUser: (user) => set({ user }),
+      setUser: (user) => {
+        // always set latest user balance value
+        const userList = useTransactionStore.getState().userList;
+        const userBalance = userList.find((u) => u.id === user?.id)?.balance;
+        set({
+          user: user ? { ...user, balance: userBalance || 0 } : null,
+        });
+      },
+      setUserBalance: (balance) =>
+        set((state) => ({
+          user: state.user ? { ...state.user, balance } : null,
+        })),
       logout: () => set({ user: null }),
     }),
     {

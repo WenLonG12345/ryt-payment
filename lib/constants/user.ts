@@ -1,0 +1,58 @@
+import { IUser } from "@/types/user";
+
+export const MOCK_USER_LIST: IUser[] = [
+  {
+    id: "usr_001",
+    username: "user001",
+    fullName: "Test User",
+    email: "user001@gmail.com",
+    password: "12345678",
+    balance: 1000,
+    lastLoginAt: new Date().toISOString(),
+  },
+  {
+    id: "usr_002",
+    username: "john_doe",
+    fullName: "John Doe",
+    email: "john.doe@example.com",
+    password: "password123",
+    balance: 1500,
+    lastLoginAt: new Date("2023-01-10").toISOString(),
+  },
+  {
+    id: "usr_003",
+    username: "jane_smith",
+    fullName: "Jane Smith",
+    email: "jane.smith@example.com",
+    password: "securePass456",
+    balance: 2700,
+    lastLoginAt: new Date("2023-03-20").toISOString(),
+  },
+  {
+    id: "usr_004",
+    username: "robert_j",
+    fullName: "Robert Johnson",
+    email: "robert.johnson@example.com",
+    password: "robert2023",
+    balance: 950,
+    lastLoginAt: new Date("2023-04-05").toISOString(),
+  },
+  {
+    id: "usr_005",
+    username: "emily_d",
+    fullName: "Emily Davis",
+    email: "emily.davis@example.com",
+    password: "emilyPass789",
+    balance: 3200,
+    lastLoginAt: new Date("2023-05-12").toISOString(),
+  },
+  {
+    id: "usr_006",
+    username: "michael_w",
+    fullName: "Michael Wilson",
+    email: "michael.wilson@example.com",
+    password: "mikeWilson123",
+    balance: 5000,
+    lastLoginAt: new Date("2023-06-25").toISOString(),
+  },
+];

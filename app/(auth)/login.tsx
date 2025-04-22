@@ -14,10 +14,11 @@ import { Controller, useForm } from "react-hook-form";
 import { ILoginReq, LoginSchema } from "@/types/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Toast from "react-native-toast-message";
-import { MOCK_USER, useAuthStore } from "@/lib/store/auth";
+import { useAuthStore } from "@/lib/store/auth";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
+import { MOCK_USER_LIST } from "@/lib/constants/user";
 
 const LoginScreen = () => {
   const router = useRouter();
@@ -29,21 +30,30 @@ const LoginScreen = () => {
 
   const setUser = useAuthStore((state) => state.setUser);
 
+
   const handleLogin = async (data: ILoginReq) => {
     // Mock User Login
-    if (
-      data.username !== MOCK_USER.username ||
-      data.password !== MOCK_USER.password
-    ) {
+    const user = MOCK_USER_LIST.find((user) => user.username === data.username);
+
+    if (!user) {
       Toast.show({
         type: "error",
         text1: "Login failed",
-        text2: "Incorrect username or password",
+        text2: "User not found",
       });
       return;
     }
 
-    setUser(MOCK_USER);
+    if (user.password !== data.password) {
+      Toast.show({
+        type: "error",
+        text1: "Login failed",
+        text2: "Incorrect password",
+      });
+      return;
+    }
+
+    setUser(user);
     router.replace("/(app)");
   };
 

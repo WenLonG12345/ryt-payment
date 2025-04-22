@@ -1,11 +1,14 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import { useAuthStore } from "@/lib/store/auth";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DropdownMenu, { MenuOption } from "@/components/DropdownMenu";
+import { useRouter } from "expo-router";
+import TransactionHistory from "@/components/TransactionHistory";
 
 const DashboardScreen = () => {
   const [userMenu, setUserMenu] = useState(false);
+  const router = useRouter();
 
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
@@ -13,7 +16,7 @@ const DashboardScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.greeting}>{`Welcome Back, ${user?.username}`}</Text>
+        <Text style={styles.greeting}>{`Welcome Back, ${user?.fullName}`}</Text>
         <DropdownMenu
           visible={userMenu}
           handleOpen={() => setUserMenu(true)}
@@ -29,7 +32,11 @@ const DashboardScreen = () => {
             marginTop: -10,
           }}
         >
-          <MenuOption onSelect={() => logout()}>
+          <MenuOption
+            onSelect={() => {
+              logout();
+            }}
+          >
             <Text>Logout</Text>
           </MenuOption>
         </DropdownMenu>
@@ -37,45 +44,24 @@ const DashboardScreen = () => {
 
       <View style={styles.balanceCard}>
         <Text style={styles.balanceLabel}>Total Balance</Text>
-        <Text style={styles.balanceAmount}>${user?.balance?.toFixed(2)}</Text>
+        <Text style={styles.balanceAmount}>RM {user?.balance?.toFixed(2)}</Text>
         <View style={styles.actionButtons}>
-          <View style={styles.actionButton}>
+          <TouchableOpacity
+            style={styles.actionButton}
+            onPress={() => router.push("/(app)/send")}
+          >
             <Text style={styles.actionButtonText}>Send</Text>
-          </View>
-          <View style={styles.actionButton}>
+          </TouchableOpacity>
+          {/* <View style={styles.actionButton}>
             <Text style={styles.actionButtonText}>Request</Text>
           </View>
           <View style={styles.actionButton}>
             <Text style={styles.actionButtonText}>Top Up</Text>
-          </View>
+          </View> */}
         </View>
       </View>
 
-      <Text style={styles.sectionTitle}>Recent Transactions</Text>
-      <View style={styles.transactionList}>
-        <View style={styles.transaction}>
-          <View style={styles.transactionIcon}>
-            <Text style={styles.transactionIconText}>🛒</Text>
-          </View>
-          <View style={styles.transactionDetails}>
-            <Text style={styles.transactionTitle}>Shopping</Text>
-            <Text style={styles.transactionDate}>Today</Text>
-          </View>
-          <Text style={styles.transactionAmount}>-$45.00</Text>
-        </View>
-        <View style={styles.transaction}>
-          <View style={styles.transactionIcon}>
-            <Text style={styles.transactionIconText}>💰</Text>
-          </View>
-          <View style={styles.transactionDetails}>
-            <Text style={styles.transactionTitle}>Salary</Text>
-            <Text style={styles.transactionDate}>Yesterday</Text>
-          </View>
-          <Text style={[styles.transactionAmount, styles.income]}>
-            +$2,500.00
-          </Text>
-        </View>
-      </View>
+      <TransactionHistory />
     </SafeAreaView>
   );
 };
@@ -98,6 +84,8 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     color: "#333",
+    textOverflow: "ellipsis",
+    maxWidth: "70%",
   },
   avatarContainer: {
     width: 40,

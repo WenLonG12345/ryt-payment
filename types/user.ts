@@ -1,8 +1,10 @@
 import { z } from "zod";
 
 export type IUser = {
+  id: string;
   username: string;
   email?: string;
+  fullName?: string;
   password: string;
   balance?: number;
   lastLoginAt?: string;
