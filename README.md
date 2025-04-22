@@ -74,6 +74,9 @@ You can log in using any of the mock users below. Feel free to perform transfers
 ### Android
 🎥 [Click to watch the demo video](./assets/video/android.mp4)
 
+### IOS
+🎥 [Click to watch the demo video](./assets/video/ios.mp4)
+
 ---
 
 ## 🧠 Challenges
