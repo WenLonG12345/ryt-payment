@@ -12,6 +12,8 @@ type AuthState = {
 export const MOCK_USER: IUser = {
   username: "user001",
   password: "12345678",
+  balance: 1000,
+  lastLoginAt: new Date().toISOString(),
 };
 
 export const useAuthStore = create<AuthState>()(

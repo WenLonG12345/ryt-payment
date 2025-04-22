@@ -4,6 +4,8 @@ export type IUser = {
   username: string;
   email?: string;
   password: string;
+  balance?: number;
+  lastLoginAt?: string;
 };
 
 export const LoginSchema = z.object({
