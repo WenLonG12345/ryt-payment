@@ -4,8 +4,10 @@ import { useTransactionStore } from "@/lib/store/transaction";
 import { useAuthStore } from "@/lib/store/auth";
 import { ITransactionHistory } from "@/types/transaction";
 import dayjs from "dayjs";
+import { useRouter } from "expo-router";
 
 const TransactionHistory = () => {
+  const router = useRouter();
   const currentUser = useAuthStore((state) => state.user);
   const getHistoryByUserId = useTransactionStore(
     (state) => state.getHistoryByUserId
@@ -29,25 +31,7 @@ const TransactionHistory = () => {
   };
 
   const handleResend = (transaction: ITransactionHistory) => {
-    // Implement your resend logic here
-    Alert.alert(
-      "Resend Transaction",
-      `Are you sure you want to resend RM${transaction.amount.toFixed(
-        2
-      )} to the same recipient?`,
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Resend",
-          onPress: () => {
-            // Call your resend function from transaction store
-            console.log("Resending transaction:", transaction);
-            // Close the action after resending
-            setSelectedTransaction(null);
-          },
-        },
-      ]
-    );
+    router.push(`/(app)/send?transactionId=${transaction.id}`);
   };
 
   const toggleSelection = (id: string) => {
@@ -77,7 +61,7 @@ const TransactionHistory = () => {
                 <View style={styles.transactionDetails}>
                   <Text style={styles.transactionTitle}>{h.note || h.id}</Text>
                   <Text style={styles.transactionDate}>
-                    {dayjs(h.createdAt).format("YYYY-MM-DD")}
+                    {dayjs(h.createdAt).format("YYYY-MM-DD mm:ss")}
                   </Text>
                 </View>
                 {renderAmount(h)}

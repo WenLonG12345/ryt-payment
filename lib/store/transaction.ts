@@ -1,10 +1,9 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import * as SecureStore from "expo-secure-store";
 import { IUser } from "@/types/user";
 import { ITransactionHistory } from "@/types/transaction";
 import { MOCK_USER_LIST } from "../constants/user";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type TransactionState = {
   userList: IUser[];
@@ -13,6 +12,10 @@ type TransactionState = {
   addHistory: (userId: string, history: ITransactionHistory) => void;
   getHistoryByUserId: (userId: string) => ITransactionHistory[];
   updateUserBalance: (userId: string, balance: number) => void;
+  getHistoryById: (
+    currentUserId: string,
+    historyId: string
+  ) => ITransactionHistory | undefined;
   // clearStore: () => void;
 };
 
@@ -39,12 +42,16 @@ export const useTransactionStore = create<TransactionState>()(
             user.id === userId ? { ...user, balance } : user
           ),
         })),
-      // clearStore: () => {
-      //   set({
-      //     userList: [],
-      //     historyList: {},
-      //   });
-      // },
+      getHistoryById: (currentUserId, historyId) => {
+        const historyList = get().historyList;
+        const history = historyList[currentUserId]?.find(
+          (h) => h.id === historyId
+        );
+        if (!history) {
+          return undefined;
+        }
+        return history;
+      },
     }),
     {
       name: "transaction",

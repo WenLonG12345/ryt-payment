@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,7 +12,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -24,17 +24,22 @@ import SendScreen2 from "@/components/TransactionSend/SendScreen2";
 import { sendTransaction } from "@/lib/service/transaction";
 import Toast from "react-native-toast-message";
 import useLocalAuthentication from "@/hooks/useLocalAuthentication";
+import { useTransactionStore } from "@/lib/store/transaction";
+import { useAuthStore } from "@/lib/store/auth";
 
 const SendTransactionScreen = () => {
   const router = useRouter();
+  const { transactionId } = useLocalSearchParams();
+  const { authenticate } = useLocalAuthentication();
+  const currentUser = useAuthStore((state) => state.user);
+  const getHistoryById = useTransactionStore((state) => state.getHistoryById);
+
   const form = useForm<ITransactionSendReq>({
     resolver: zodResolver(TransactionSendSchema),
   });
 
   const [step, setStep] = useState(1); // 1: Enter details, 2: Confirm
   const [isLoading, setIsLoading] = useState(false);
-
-  const { authenticate } = useLocalAuthentication();
 
   const handleSendTransaction = async () => {
     setIsLoading(true);
@@ -131,6 +136,20 @@ const SendTransactionScreen = () => {
       );
     }
   };
+
+  useEffect(() => {
+    if (transactionId) {
+      const history = getHistoryById(
+        currentUser?.id || "",
+        transactionId as string
+      );
+      if (history) {
+        form.setValue("to", history.to);
+        form.setValue("amount", history.amount.toString());
+        form.setValue("note", history.note);
+      }
+    }
+  }, [transactionId]);
 
   return (
     <SafeAreaView style={styles.container}>
