@@ -1,50 +1,85 @@
-# Welcome to your Expo app 👋
+# RYT Payment Assessment
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+---
 
-## Get started
+## 🚀 Setup Instructions
 
-1. Install dependencies
+Follow these steps to get the app up and running on your machine:
 
-   ```bash
-   npm install
-   ```
-
-2. Start the app
+1. **Switch to the `main` branch**
 
    ```bash
-    npx expo start
+   git checkout main
    ```
 
-In the output, you'll find options to open the app in a
+2. **Install dependencies**
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+   ```bash
+   pnpm install
+   ```
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+3. **Run the Android app**
 
-## Get a fresh project
+   ```bash
+   pnpm android
+   ```
 
-When you're ready, run:
+4. **Run the iOS app**
+   ```bash
+   pnpm ios
+   ```
 
-```bash
-npm run reset-project
-```
+---
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## 🔑 Demo Accounts
 
-## Learn more
+You can log in using any of the mock users below. Feel free to perform transfers between users during your testing.
 
-To learn more about developing your project with Expo, look at the following resources:
+| Username   | Password      | Balance | Full Name      |
+| ---------- | ------------- | ------- | -------------- |
+| user001    | 12345678      | 1000    | Test User      |
+| john_doe   | password123   | 1500    | John Doe       |
+| jane_smith | securePass456 | 2700    | Jane Smith     |
+| robert_j   | robert2023    | 950     | Robert Johnson |
+| emily_d    | emilyPass789  | 3200    | Emily Davis    |
+| michael_w  | mikeWilson123 | 5000    | Michael Wilson |
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
+## ✨ Features
 
-Join our community of developers creating universal apps.
+- User authentication
+- Account balance overview
+- Money transfers between users
+- Transaction history
+- Quick transaction re-send based on transaction history
+- Secure biometrics verification
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
+
+## 🛠 Tech Stack
+
+- React Native
+- Expo
+- TypeScript
+- PNPM
+- Zustand
+- React Hook Form
+- Zod
+
+---
+
+## 📱 Video Showcase
+
+### Android
+<video width="600" controls>
+  <source src="./assets/video/android.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+---
+
+## 🧠 Challenges
+
+- Unable to showcase fingerprint / FaceID authentication in simulator
+- No backend API integration, everything needs to be in mock data.
