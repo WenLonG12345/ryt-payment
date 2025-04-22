@@ -72,10 +72,7 @@ You can log in using any of the mock users below. Feel free to perform transfers
 ## 📱 Video Showcase
 
 ### Android
-<video width="600" controls>
-  <source src="./assets/video/android.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+🎥 [Click to watch the demo video](./assets/video/android.mp4)
 
 ---
 
