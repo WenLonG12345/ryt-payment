@@ -50,7 +50,7 @@ const SendTransactionScreen = () => {
     try {
       const isVerified = await authenticate();
 
-      if (!isVerified) {
+      if (isVerified) {
         await sendTransaction(form.getValues());
 
         Toast.show({
