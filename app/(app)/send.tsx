@@ -48,16 +48,18 @@ const SendTransactionScreen = () => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     try {
-      authenticate();
+      const isVerified = await authenticate();
 
-      await sendTransaction(form.getValues());
+      if (!isVerified) {
+        await sendTransaction(form.getValues());
 
-      Toast.show({
-        type: "success",
-        text1: "Transaction sent successfully",
-      });
+        Toast.show({
+          type: "success",
+          text1: "Transaction sent successfully",
+        });
 
-      router.replace("/(app)");
+        router.replace("/(app)");
+      }
     } catch (err: any) {
       Toast.show({
         type: "error",
